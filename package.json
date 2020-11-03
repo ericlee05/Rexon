@@ -1,7 +1,7 @@
 {
   "name": "rexon",
   "version": "1.0.0",
-  "description": "Made with create-react-library",
+  "description": "Virtual CLI Component for React",
   "author": "VINTO1819",
   "license": "MIT",
   "repository": "VINTO1819/rexon",
