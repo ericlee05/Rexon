@@ -14,6 +14,8 @@ export class Rexon extends React.Component<Props, States>{
     CurrentBackgroundColor: "black",
   }
 
+  ConsoleWindow: HTMLDivElement | undefined = undefined
+
   Console: RexonConsole = {
     setTitle: (Title: string) => {
       this.setState({ CurrentTitle: Title })
@@ -78,17 +80,17 @@ export class Rexon extends React.Component<Props, States>{
       this.setState({ Theme })
     },
 
-    printWithAnimation: (Text:string, Speed:number) => {
+    printWithAnimation: (Text: string, Speed: number) => {
       const Interval = (1 - ((Speed >= 1) ? 0.9 : Speed)) * 250
       var RunningTime = 0
       return new Promise<void>((resolve) => {
         var Timer = setInterval(() => {
-          if(RunningTime * Interval >= Text.length * Interval){
+          if (RunningTime * Interval >= Text.length * Interval) {
             clearInterval(Timer)
             resolve()
-          }else{
+          } else {
             var NewItems = this.state.Items
-            NewItems.push({Text : Text[RunningTime], Color: this.ConsoleTheme.CurrentColor })
+            NewItems.push({ Text: Text[RunningTime], Color: this.ConsoleTheme.CurrentColor })
             this.setState({ Items: NewItems })
           }
           RunningTime++
@@ -114,11 +116,12 @@ export class Rexon extends React.Component<Props, States>{
 
   componentDidMount() {
     this.props.Runtime.onCreate(this.Console)
+
   }
 
   render() {
     return (
-      <div style={{...{ backgroundColor: this.ConsoleTheme.CurrentBackgroundColor }, ...this.props.style}}>
+      <div style={{ ...{ backgroundColor: this.ConsoleTheme.CurrentBackgroundColor, overflowY: "auto" }, ...this.props.style }}>
         <div>
           <h2>{this.state.CurrentTitle}</h2>
         </div>
@@ -126,6 +129,7 @@ export class Rexon extends React.Component<Props, States>{
           {this.state.Items.map(Item =>
             //Item.Text.split("\n").map(line => (<p style={{color:Item.Color, margin:0, display: Item.Text.includes("\n") ? "block" : "inline-block"}}>{line}</p>))
             Item.Text.split("\n").map(line => {
+              this.ConsoleWindow?.scrollIntoView({ behavior: "smooth" })
               if (Item.Text.split("\n").length > 1 && line.length > 0) {
                 return (<p className="RexonCommand" style={{ color: Item.Color, margin: 0, display: 'inline', fontSize: this.state.Theme.CurrentFontSize }}>{line}<br style={{ display: 'inline-block' }} /></p>)
               } else {
@@ -133,29 +137,32 @@ export class Rexon extends React.Component<Props, States>{
               }
             })
           )}
-          <input type="text" value={this.state.CurrentText} onChange={(Event) => {
-            this.setState({ CurrentText: Event.target.value })
-          }} onKeyPress={(Event) => {
-            if (Event.key == "Enter") {
-              this.Console.println(this.state.CurrentText)
-              if (!this.state.isReading) {
+          <div ref={(element) => this.ConsoleWindow = element!} style={{display:"inline-block"}}>
+            <input type="text" value={this.state.CurrentText} onChange={(Event) => {
+              this.setState({ CurrentText: Event.target.value })
+            }} onKeyPress={(Event) => {
+              if (Event.key == "Enter") {
+                this.Console.println(this.state.CurrentText)
+                if (!this.state.isReading) {
+                  this.setState({
+                    CurrentText: ""
+                  })
+                }
                 this.setState({
-                  CurrentText: ""
+                  isReading: false
                 })
               }
-              this.setState({
-                isReading: false
-              })
-            }
 
-          }} style={{
-            backgroundColor: this.ConsoleTheme.CurrentBackgroundColor,
-            color: this.ConsoleTheme.CurrentColor,
-            fontSize: this.state.Theme.CurrentFontSize,
-            boxShadow: "none",
-            outline: "none",
-            border: "none"
-          }} />
+            }} style={{
+              backgroundColor: this.ConsoleTheme.CurrentBackgroundColor,
+              color: this.ConsoleTheme.CurrentColor,
+              fontSize: this.state.Theme.CurrentFontSize,
+              boxShadow: "none",
+              outline: "none",
+              border: "none",
+              display:"inline-block"
+            }} />
+          </div>
         </div>
       </div>
     )
