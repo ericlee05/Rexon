@@ -11,4 +11,6 @@ export default interface RexonConsole {
     setBackgroundColor: (Color: string) => void
     setFontSize: (Size: number) => void
     printWithAnimation:(Text:string, Speed:number) => Promise<void>
+    setBackgroundImage:(ImageURL:string) => void
+    setBackgroundImageOpacity:(Opacity: number) => void
 }

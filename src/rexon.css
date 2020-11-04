@@ -1,0 +1,17 @@
+.side_bar{
+    overflow-y: auto;
+}
+
+.side_bar::-webkit-scrollbar{
+    background-color: transparent;
+    width: 8px;
+}
+
+.side_bar::-webkit-scrollbar-track{
+    background-color: transparent;
+}
+
+.side_bar::-webkit-scrollbar-thumb{
+    background-color:#C9613F;
+    border-radius: 100px;
+}

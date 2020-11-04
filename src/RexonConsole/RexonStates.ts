@@ -8,5 +8,7 @@ export default interface States {
   isReading: boolean
   Theme: {
     CurrentFontSize: number
+    ConsoleBackgroundImage:string
+    ConsoleBackgroundImageOpacity:number
   }
 }
