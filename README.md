@@ -45,10 +45,14 @@ We are trying to implement the APIs of Win32 Console in Rexon, Now we supports t
  * `Console.setColor(Color:string)` : set current color of text / 앞으로 작성할 텍스트의 색상을 변경합니다
  * `Console.setBackgroundColor(Color:string)` : set background color / 배경 색을 변경합니다
  * `Console.setFontSize(Size:number)` : set font size / 폰트 크기를 변경합니다
- 
+ * `Console.setBackgroundImage(Image:string)` : set background image / 배경 이미지를 변경합니다
+ * `Console.setBackgroundImageOpacity(Opacity:number)` : set opacity of background image / 배경 이미지의 투명도를 설정합니다
+
 
 Also, these may be implemented soon. / 또한, 아래의 기능들은 곧 구현될 수 있습니다.
  * Console Progress bar / 콘솔 프로그레스 바
+ * Console Table Generator(with 2D array) / 콘솔 테이블 생성기(2차원 배열 이용)
+ * Command-line user interface framework(like [cli-ui](https://github.com/Shopify/cli-ui)) / 커맨드라인 유저 인터페이스 프레임워크([cli-ui](https://github.com/Shopify/cli-ui)와 유사하게 개발할 예정)
  * and more.. / 그리고 더 추가될 예정입니다..
 
 
