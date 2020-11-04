@@ -1,10 +1,16 @@
 {
   "name": "rexon",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Virtual CLI Component for React",
   "author": "VINTO1819",
   "license": "MIT",
   "repository": "VINTO1819/rexon",
+  "keywords": [
+    "react",
+    "virtual",
+    "cli",
+    "component"
+  ],
   "main": "dist/index.js",
   "module": "dist/index.modern.js",
   "source": "src/index.tsx",
