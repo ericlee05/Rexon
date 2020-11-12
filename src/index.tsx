@@ -17,6 +17,8 @@ export class Rexon extends React.Component<Props, States>{
 
   ConsoleWindow: HTMLDivElement | undefined = undefined
   Console: RexonConsole = RexonConsoleAPI(this)
+  RenderCounter: number = 0
+  InputElement: HTMLInputElement | undefined = undefined
 
   componentWillMount() {
     this.setState({
@@ -27,8 +29,8 @@ export class Rexon extends React.Component<Props, States>{
       isReading: false,
       Theme: {
         CurrentFontSize: 18,
-        ConsoleBackgroundImage:"",
-        ConsoleBackgroundImageOpacity:0
+        ConsoleBackgroundImage: "",
+        ConsoleBackgroundImageOpacity: 0
       }
     })
   }
@@ -40,29 +42,26 @@ export class Rexon extends React.Component<Props, States>{
 
   render() {
     return (
-      <div style={{ ...{ backgroundColor: this.ConsoleTheme.CurrentBackgroundColor, overflowY: "auto" }, ...this.props.style, display: "flex", flexDirection: "column"}}>
-        <div style={{backgroundColor:"#151C22"}}>
-          <h2 style={{color:"white", margin:"5px", fontSize:20}}>{this.state.CurrentTitle}</h2>
+      <div style={{ ...{ backgroundColor: this.ConsoleTheme.CurrentBackgroundColor, overflowY: "auto" }, ...this.props.style, display: "flex", flexDirection: "column" }}>
+        <div style={{ backgroundColor: "#151C22" }}>
+          <h2 style={{ color: "white", margin: "5px", fontSize: 20 }}>{this.state.CurrentTitle}</h2>
         </div>
-        <div style={{ position:"relative", width: "100%", flex: 1}}>
-          <div style={{backgroundColor:this.ConsoleTheme.CurrentBackgroundColor, opacity:this.state.Theme.ConsoleBackgroundImageOpacity}}>
+        <div style={{ position: "relative", width: "100%", flex: 1 }}>
+          <div style={{ backgroundColor: this.ConsoleTheme.CurrentBackgroundColor, opacity: this.state.Theme.ConsoleBackgroundImageOpacity }}>
             <img src={this.state.Theme.ConsoleBackgroundImage}
-              style={{ position: "absolute", width: "100%", height:"100%", objectFit:"cover" }} />
+              style={{ position: "absolute", width: "100%", height: "100%", objectFit: "cover" }} />
           </div>
-          <div className={barStyle.side_bar} style={{width:"100%", height:"100%", overflowY:"auto", position: "absolute"}}>
+          <div className={barStyle.side_bar} style={{ width: "100%", height: "100%", overflowY: "auto", position: "absolute" }}>
             {this.state.Items.map(Item =>
-              //Item.Text.split("\n").map(line => (<p style={{color:Item.Color, margin:0, display: Item.Text.includes("\n") ? "block" : "inline-block"}}>{line}</p>))
-              Item.Text.split("\n").map(line => {
-                this.ConsoleWindow?.scrollIntoView({ behavior: "smooth" })
-                if (Item.Text.split("\n").length > 1 && line.length > 0) {
-                  return (<p className="RexonCommand" style={{ color: Item.Color, margin: 0, display: 'inline', fontSize: this.state.Theme.CurrentFontSize }}>{line}<br style={{ display: 'inline-block' }} /></p>)
-                } else {
-                  return (<p className="RexonCommand" style={{ color: Item.Color, margin: 0, display: 'inline', fontSize: this.state.Theme.CurrentFontSize }}>{line}</p>)
-                }
-              })
+              //or use this : Item.Text.split("\n").map(line => (<p style={{color:Item.Color, margin:0, display: (line == "") ? "block" : "inline-block", fontSize: this.state.Theme.CurrentFontSize}}>{line}</p>))
+              (
+                <span>
+                  {Item.Text.split("").map(Character => Character == "\n" ? <br /> : <p style={{ color: Item.Color, margin: 0, display: 'inline', fontSize: this.state.Theme.CurrentFontSize }}>{Character}</p>)}
+                </span>
+              ), this.ConsoleWindow?.scrollIntoView({ behavior: "smooth" })
             )}
             <div ref={(element) => this.ConsoleWindow = element!} style={{ display: "inline-block" }}>
-              <input type="text" value={this.state.CurrentText} onChange={(Event) => {
+              <input ref={ref => this.InputElement = ref!} type="text" disabled={!this.state.isReading} value={this.state.CurrentText} autoFocus onChange={(Event) => {
                 this.setState({ CurrentText: Event.target.value })
               }} onKeyPress={(Event) => {
                 if (Event.key == "Enter") {

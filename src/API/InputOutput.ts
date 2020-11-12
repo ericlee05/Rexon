@@ -20,6 +20,7 @@ export default class InputOutput {
 
     readln = () => {
         this.Context.setState({ isReading: true })
+        this.Context.InputElement!.focus()
         return new Promise<string>((resolve) => {
             var Timer = setInterval(() => {
                 //console.log(this.state.isReading + " / " + this.state.CurrentText)
@@ -52,9 +53,15 @@ export default class InputOutput {
                     clearInterval(Timer)
                     resolve()
                 } else {
-                    var NewItems = this.Context.state.Items
-                    NewItems.push({ Text: Text[RunningTime], Color: this.Context.ConsoleTheme.CurrentColor })
-                    this.Context.setState({ Items: NewItems })
+                    if(this.Context.state.Items.length == 0){
+                        var NewItems = this.Context.state.Items
+                        NewItems.push({Text:Text[RunningTime], Color:this.Context.ConsoleTheme.CurrentColor})
+                        this.Context.setState({ Items: NewItems })
+                    }else{
+                        var NewItems = this.Context.state.Items
+                        NewItems[NewItems.length -1].Text = NewItems[NewItems.length -1].Text + Text[RunningTime]
+                        this.Context.setState({ Items: NewItems })
+                    }
                 }
                 RunningTime++
             }, Interval)

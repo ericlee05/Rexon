@@ -8,11 +8,8 @@ const Runtime:RexonRuntime = {
     Console.setBackgroundImage("/console.jpg")
     Console.setBackgroundImageOpacity(0.4)
 
-    Console.setColor("pink")
-    await Console.printWithAnimation(`Hello, World!`, 0.4)
     Console.setColor("white")
-
-    Console.println("\n ")
+    await Console.printWithAnimation(`Hello, World!\n`, 0.4)
 
     var FontSize = 18
     while(true){
