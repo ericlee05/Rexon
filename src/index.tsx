@@ -56,7 +56,14 @@ export class Rexon extends React.Component<Props, States>{
               //or use this : Item.Text.split("\n").map(line => (<p style={{color:Item.Color, margin:0, display: (line == "") ? "block" : "inline-block", fontSize: this.state.Theme.CurrentFontSize}}>{line}</p>))
               (
                 <span>
-                  {Item.Text.split("").map(Character => Character == "\n" ? <br /> : <p style={{ color: Item.Color, margin: 0, display: 'inline', fontSize: this.state.Theme.CurrentFontSize }}>{Character}</p>)}
+                  {
+                    Item.Text.split("").map(Character =>
+                       (Character == "\n") ? (<br />) : (
+                         (Character != " ") ? (<p style={{ color: Item.Color, margin: 0, display: 'inline', fontSize: this.state.Theme.CurrentFontSize }}>{Character}</p>) : 
+                         (<p style={{ color: Item.Color, margin: 0, display: 'inline', fontSize: this.state.Theme.CurrentFontSize }}>&nbsp;</p>)
+                       )
+                    )
+                  }
                 </span>
               ), this.ConsoleWindow?.scrollIntoView({ behavior: "smooth" })
             )}
